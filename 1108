@@ -1,0 +1,7 @@
+while 1:
+    num, rank = map(int, input().split())
+    l1 = list(map(int,input().split()))
+    l2 = l1
+    l2 = sorted(l2, reverse=True)
+    b = l1.index(l2[rank-1])
+    print("%d %d" % (l2[rank-1], b))
