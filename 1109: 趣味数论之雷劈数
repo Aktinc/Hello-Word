@@ -1,0 +1,5 @@
+while 1:
+    num = input()
+    big = num[:2]
+    small = num[2:]
+    print("Yes" if (int(big) + int(small))**2 == int(num) else "No")
