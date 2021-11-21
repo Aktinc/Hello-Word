@@ -1,0 +1,18 @@
+while 1:
+    num = input()
+    l1 = "-".join(num).split("-")
+    Max = sorted(l1, reverse=True)
+    Small = sorted(l1)
+    num1 = "".join(Max)
+    num2 = "".join(Small)
+    num3 = "";
+    while num3 != "6174":
+        num3 = str(int(num1) - int(num2))
+        print(num1 + "-" + num2 + "=" + num3)
+        l1 = "-".join(str(num3)).split("-")
+        Max = sorted(l1, reverse=True)
+        Small = sorted(l1)
+        num1 = "".join(Max)
+        num2 = "".join(Small)
+    print("7641-1467=6174")
+    print()
