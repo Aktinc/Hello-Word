@@ -1,0 +1,14 @@
+import math
+
+while 1:
+    startNum, endNum = map(int, input().split())
+    num = 0
+    for a in range(startNum, endNum+1):
+        index = 0
+        for b in range(2, math.ceil(a / 2)+1):
+            if a % b == 0 and a != 2:
+                index = 1
+                break
+        if index == 0:
+            num += 1
+    print(num)
