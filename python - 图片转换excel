@@ -1,0 +1,91 @@
+########################################################################################################################
+"""
+需要为python环境安装opencv以及openpyxl包
+在python终端（看个人环境）执行：
+pip install opencv-python
+pip install openpyxl
+如果有什么问题，请自行百度叭
+欢迎关注本人CSDN博客【Coco56】，看更详细教程
+用有趣好玩的案例带你学哦
+"""
+########################################################################################################################
+
+# 导入opencv和openpyxl
+import cv2 as cv
+from openpyxl import load_workbook
+from openpyxl.styles import PatternFill
+from openpyxl.utils import get_column_letter
+import xlsxwriter
+
+########################################################################################################################
+'''
+图片必须jpg格式
+程序有一点没能调出来的bug，可能会运行成功但excal无法打开，换一个行宽都小一点的图片就行了，或者利用opencv对图片缩放
+'''
+########################################################################################################################
+
+workbook = xlsxwriter.Workbook('zhaopian.xlsx')  # 打开一个xlsx文件（如果打开的文件存在 ，则清空该文件，如果文件不存在，则新建）
+workbook.close()  # 最后关闭文件
+
+
+# 自定义函数，将RGB颜色值转换为16进制的字符串格式
+def color_transform(value):
+    digit = list(map(str, range(10))) + list("ABCDEF")
+    if isinstance(value, tuple):
+        string = ''
+        for i in value:
+            a1 = i // 16
+            a2 = i % 16
+            string += digit[a1] + digit[a2]
+        return string
+    elif isinstance(value, str):
+        a1 = digit.index(value[1]) * 16 + digit.index(value[2])
+        a2 = digit.index(value[3]) * 16 + digit.index(value[4])
+        a3 = digit.index(value[5]) * 16 + digit.index(value[6])
+        return a1, a2, a3
+
+
+# 加载工作簿
+wb = load_workbook(filename='zhaopian.xlsx')  # 默认工作路径，zhaopian.xlsx为Excal表格名称，自行更改
+# 获取活动中的表格
+sheet = wb.active
+print("open sheet:", sheet.title)  # 打印表格标题
+print("row:", sheet.max_row, "column:", sheet.max_column)
+
+# opencv读取图像并显示
+'''
+opencv的imread函数读取图片到srcImage
+如果按原始大小读取图片，可以改为：srcImage = cv.imread('zhu.jpg')
+加上第二个参数33:srcImage = cv.imread('zhu.jpg',33)
+表示将原图缩为原来的1/4进行读取。当原图过大是可以采用
+'''
+srcImage = cv.imread('zhaopian.jpg', 33)  # zhu.jpg为照片名字，自行更改
+
+# 获取图像的高，宽并打印
+height = srcImage.shape[0]
+width = srcImage.shape[1]
+print("height:", height, "width:", width)
+
+# 遍历循环图片，获取各像素点位置的像素值，并利用openpyxl改写对应位置单元格颜色
+for y in range(1, height):
+    print("第几行：", y)  # 供查看进度
+    for x in range(1, width):
+        Blue_value = srcImage[y, x, 0]  # 获取蓝，绿，红三个通道
+        Green_value = srcImage[y, x, 1]
+        Red_value = srcImage[y, x, 2]
+        color = (Red_value, Green_value, Blue_value)  # 转为元组并附给color_transform函数得到16进制
+        hex_ = color_transform(color)
+        fille = PatternFill(fill_type='solid', fgColor=hex_)  # 设置颜色
+        sheet.cell(y, x).fill = fille  # openpyxl进行颜色填充
+
+width = 3.0
+height = width * (2.2862 / 0.3612)
+
+print("row:", sheet.max_row, "column:", sheet.max_column)
+for i in range(1, sheet.max_row+1):
+    sheet.row_dimensions[i].height = height
+for i in range(1, sheet.max_column+1):
+    sheet.column_dimensions[get_column_letter(i)].width = width
+
+wb.save(filename='zhaopian.xlsx')  # 保存工作簿
+print("保存成功")
