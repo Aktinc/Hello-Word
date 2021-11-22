@@ -1,0 +1,12 @@
+while 1:
+    num, num1 = map(int, input().split())
+    if num == num1 == 0:
+        break
+    mi = min(num, num1)
+    ma = max(num, num1)
+    l = mi * ma
+    while mi != 0:
+        temp = ma % mi
+        ma = mi
+        mi = temp
+    print(l // ma)
