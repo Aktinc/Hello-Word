@@ -1,0 +1,8 @@
+import math
+
+while 1:
+    num = input()
+    b = 0
+    for a in num:
+        b += math.pow(int(a), len(num))
+    print("Yes" if b == int(num) else "No")
