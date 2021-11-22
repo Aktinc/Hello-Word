@@ -1,0 +1,17 @@
+def sc(n):
+    c = 0.0
+    for a in range(2, n + 1):
+        c += rebe(a)
+    return c
+
+
+def rebe(a):
+    c = 1
+    for b in range(1, a + 1):
+        c *= b
+    return 1/c
+
+
+while 1:
+    num = int(input())
+    print('%.10f' % float(2.0 + sc(num)))
