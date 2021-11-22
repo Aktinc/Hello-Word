@@ -1,0 +1,15 @@
+while 1:
+    a = input()
+    l1 = list(map(int, input().split()))
+    l1.sort()
+    mi = min(l1[0], l1[1])
+    ma = max(l1[1], l1[0])
+    while mi != 0:
+        temp = ma % mi
+        ma = mi
+        mi = temp
+    c = ma
+    for b in l1:
+        if b % ma != 0:
+            c = 1
+    print(c)
