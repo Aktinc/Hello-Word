@@ -1,0 +1,14 @@
+while 1:
+    num = int(input())
+    if num == 0:
+        break
+    man = 0
+    women = 0
+    for a in range(1, num//2+1):
+         if num % a == 0:
+             man += a
+    for a in range(1, man//2+1):
+        if man % a == 0:
+            women += a
+    print(man if women == num else "No")
+
