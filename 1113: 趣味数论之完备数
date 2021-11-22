@@ -1,0 +1,10 @@
+while 1:
+    num = int(input())
+    man = [6, 28, 496, 8128,33550336]
+    c = "No"
+    for a in man:
+        if a == num:
+            c = "Yes"
+            break
+    print(c)
+
